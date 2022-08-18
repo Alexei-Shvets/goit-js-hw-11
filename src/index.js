@@ -56,6 +56,7 @@ async function onFormSubmit(e) {
       );
       clearGalleryHTML();
       renderCard(response.hits);
+      formAdd.reset();
     }
   } catch (error) {
     console.log(error);
