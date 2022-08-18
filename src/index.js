@@ -1,7 +1,7 @@
 import './sass/main.scss';
 
 import scroll from './js/scroll';
-import arrowToTop from './js/lift-up';
+import topArrow from './js/lift-up';
 
 import fetchPixabay from './js/fetch-pixabay';
 import cardTemplate from './template-card.hbs';
@@ -19,18 +19,19 @@ const refs = {
 };
 
 //вызов лифта вверх//
-arrowToTop();
+topArrow();
 
 refs.searchForm.addEventListener('submit', onFormSubmit);
 let searchingData = '';
 let page = 1;
 let perPage = 0;
+//let woah;
 
 async function onFormSubmit(e) {
+  //woah = e;
   e.preventDefault();
 
   searchingData = e.currentTarget.searchQuery.value;
-  page = 1;
   if (searchingData.trim() === '') {
     Notify.failure('Неа, воздух я искать не буду 😺');
     return;
@@ -75,6 +76,7 @@ async function loadMore() {
     renderCard(response.hits);
     perPage += response.hits.length;
     scroll();
+    page += 1;
 
     if (perPage >= response.totalHits) {
       Notify.failure('Мы зашли в тупик. Картиночки закончились 🚩');
@@ -113,4 +115,20 @@ function renderCard(array) {
   const cardMarkup = array.map(item => cardTemplate(item)).join('');
   refs.gallery.insertAdjacentHTML('beforeend', cardMarkup);
   lightbox();
+  // observer.observe(target); //вызов бесконечного скролла после рендеринга разметки карточек-картинок//
 }
+
+//бесконечный скролл//
+//const target = document.querySelector('.trigger-for-scroll');
+//const options = {
+//rootMargin: '300px',
+//threshold: 1.0,
+//};
+//const callback = function (entries) {
+//if (entries[0].isIntersecting) {
+//onFormSubmit(woah);
+//}
+// entries.forEach(entry => { entries[0].isIntersecting; })
+//console.log(entries[0].isIntersecting);
+//};
+//const observer = new IntersectionObserver(callback, options);
