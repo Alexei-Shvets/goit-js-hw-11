@@ -21,7 +21,15 @@ const refs = {
 //вызов лифта вверх//
 topArrow();
 
-refs.searchForm.addEventListener('submit', onFormSubmit);
+//refs.searchForm.addEventListener('submit', onFormSubmit);
+
+//сделали функции чтобы при вводе пустой строки - скрывало(кнопку) то, что было до нового поиска//
+refs.searchForm.addEventListener('submit', e => {
+  refs.gallery.innerHTML = '';
+  onFormSubmit(e);
+  refs.loadMoreBtn.classList.add('is-hidden');
+});
+
 let searchingData = '';
 let page = 1;
 let perPage = 0;
@@ -56,7 +64,7 @@ async function onFormSubmit(e) {
       );
       clearGalleryHTML();
       renderCard(response.hits);
-      refs.searchForm.reset();
+      //refs.searchForm.reset();
     }
   } catch (error) {
     console.log(error);
