@@ -1,4 +1,4 @@
-//функция  , делающая скролл плавным//
+//функция , делающая скролл плавным//
 export default function scroll() {
   const { height: cardHeight } = document
     .querySelector('.gallery')
